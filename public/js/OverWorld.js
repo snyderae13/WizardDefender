@@ -6,13 +6,30 @@ class Overworld {
 
     }
 
-    init () {
-        const image = new Image();
-        image.onload = () => {
-            this.ctx.drawImage(image,0,0)
+    init() {
+        const hero = new Image();
+        hero.onload = () => {
+            this.ctx.drawImage(hero,0,0)
+                
+            console.log("im here");
 
         };
-        image.src = "/images/fullGrass.png";
+        hero.src = "/images/character.png";
+
+        const image = new Image();
+        image.onload = () =>{
+            this.ctx.drawImage(image,0,0)
+        }
+        image.src="/images/fullGrass.png";
+
+
+
+        
+
+        
+
+
+
     }
 
 
