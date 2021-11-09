@@ -27,12 +27,12 @@ const mouse = {
 
 }
 let canvasPosition = canvas.getBoundingClientRect();
-canvas.addEventListener('mousemove', function(e){
+canvas.addEventListener('mousemove', function (e) {
     mouse.x = e.x - canvasPosition.left;
     mouse.y = e.y - canvasPosition.top;
 
 });
-canvas.addEventListener('mouseleave', function(){
+canvas.addEventListener('mouseleave', function () {
     mouse.x = undefined;
     mouse.y = undefined;
 })
@@ -41,34 +41,34 @@ canvas.addEventListener('mouseleave', function(){
 // grid base game board
 const controlsBar = {
     width: canvas.width,
-    height : cellSize,
+    height: cellSize,
 }
 
 class Cell {
-    constructor(x, y){
+    constructor(x, y) {
         this.x = x;
         this.y = y;
         this.width = cellSize;
         this.height = cellSize;
     }
-    draw(){
-        if(mouse.x && mouse.y && collision(this, mouse)){
-        ctx.strokeStyle = 'black';
-        ctx.strokeRect(this.x, this.y, this.width, this.height);
+    draw() {
+        if (mouse.x && mouse.y && collision(this, mouse)) {
+            ctx.strokeStyle = 'black';
+            ctx.strokeRect(this.x, this.y, this.width, this.height);
         }
     }
 }
-function createGrid(){
-    for(let y = cellSize; y < canvas.height; y += cellSize){
-        for(let x = 0; x < canvas.width; x += cellSize){
+function createGrid() {
+    for (let y = cellSize; y < canvas.height; y += cellSize) {
+        for (let x = 0; x < canvas.width; x += cellSize) {
             gameGrid.push(new Cell(x, y));
 
         }
     }
 }
 createGrid();
-function handleGameGrid(){
-    for( let i = 0; i < gameGrid.length; i++){
+function handleGameGrid() {
+    for (let i = 0; i < gameGrid.length; i++) {
         gameGrid[i].draw();
     }
 
@@ -77,7 +77,7 @@ function handleGameGrid(){
 
 //projectiles
 class Projectile {
-    constructor(x, y){
+    constructor(x, y) {
         this.x = x;
         this.y = y;
         this.width = 10;
@@ -85,31 +85,31 @@ class Projectile {
         this.power = 20;
         this.speed = 5;
     }
-    update(){
+    update() {
         this.x += this.speed;
 
     }
-    draw(){
-        ctx.fillStyle= 'black';
+    draw() {
+        ctx.fillStyle = 'black';
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.width, 0, Math.PI * 2);
         ctx.fill();
     }
 }
-function handleProjectiles(){
-    for(let i = 0; i < projectiles.length; i++){
+function handleProjectiles() {
+    for (let i = 0; i < projectiles.length; i++) {
         projectiles[i].update();
         projectiles[i].draw();
 
-        for(let j = 0; j < enemies.length; j++){
-            if(enemies[j] && projectiles[i] && collision(projectiles[i], enemies[j])){
+        for (let j = 0; j < enemies.length; j++) {
+            if (enemies[j] && projectiles[i] && collision(projectiles[i], enemies[j])) {
                 enemies[j].health -= projectiles[i].power;
                 projectiles.splice(i, 1);
                 i--;
             }
         }
 
-        if(projectiles[i] && projectiles[i].x > canvas.width - cellSize){
+        if (projectiles[i] && projectiles[i].x > canvas.width - cellSize) {
             projectiles.splice(i, 1);
             i--;
         }
@@ -120,7 +120,7 @@ function handleProjectiles(){
 
 //defenders
 class Defender {
-    constructor(x, y){
+    constructor(x, y) {
         this.x = x;
         this.y = y;
         this.width = cellSize - cellGap * 2;
@@ -130,41 +130,41 @@ class Defender {
         this.projectiles = [];
         this.timer = 0;
     }
-    draw(){
+    draw() {
         ctx.fillStyle = 'blue';
         ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.fillStyle = 'gold';
-        ctx.font ='20px Arial';
+        ctx.font = '20px Arial';
         ctx.fillText(Math.floor(this.health), this.x, this.y);
     }
-    update(){
+    update() {
         this.timer++;
-        if(this.timer % 100 === 0){
+        if (this.timer % 100 === 0) {
             projectiles.push(new Projectile(this.x + 70, this.y + 70));
         }
     }
 }
-canvas.addEventListener('click', function(){
+canvas.addEventListener('click', function () {
     const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
     const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
-    if(gridPositionY < cellSize) return;
+    if (gridPositionY < cellSize) return;
     let defenderCost = 100;
-    if(numOfResources >= defenderCost){
+    if (numOfResources >= defenderCost) {
         defenders.push(new Defender(gridPositionX, gridPositionY));
         numOfResources -= defenderCost;
     }
 });
 
-function handleDefenders(){
-    for(let i = 0; i < defenders.length; i++){
+function handleDefenders() {
+    for (let i = 0; i < defenders.length; i++) {
         defenders[i].draw();
         defenders[i].update();
-        for ( let j = 0; j < enemies.length; j++){
-            if(defenders[i] && collision(defenders[i], enemies[j])){
+        for (let j = 0; j < enemies.length; j++) {
+            if (defenders[i] && collision(defenders[i], enemies[j])) {
                 enemies[j].movement = 0;
                 defenders[i].health -= 0.2;
             }
-            if (defenders[i] && defenders[i].health <= 0){
+            if (defenders[i] && defenders[i].health <= 0) {
                 defenders.splice(i, 1);
                 i--;
                 enemies[j].movement = enemies[j].speed;
@@ -182,12 +182,12 @@ enemyTypes.push(enemy1);
 
 
 class Enemy {
-    constructor(verticalPosition){
+    constructor(verticalPosition) {
         this.x = canvas.width;
         this.y = verticalPosition;
-        this.width= cellSize;
+        this.width = cellSize;
         this.height = cellSize;
-        this.speed = Math.random() * 0.2 +0.4;
+        this.speed = Math.random() * 0.2 + 0.4;
         this.movement = this.speed;
         this.health = 100;
         this.maxHealth = this.health;
@@ -199,29 +199,29 @@ class Enemy {
         this.spriteWidth = 80;
         this.spriteHeight = 80;
     }
-    update(){
+    update() {
         this.x -= this.movement;
-        if(this.frameX < this.maxFrame) this.frameX++;
+        if (this.frameX < this.maxFrame) this.frameX++;
         else this.frameX = this.minFrame;
     }
-    draw(){
+    draw() {
         ctx.fillStyle = 'red';
         ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.fillStyle = 'black';
-        ctx.font ='20px Arial';
+        ctx.font = '20px Arial';
         ctx.fillText(Math.floor(this.health), this.x, this.y);
         ctx.drawImage(this.enemyType, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
     }
 }
-function handleEnemy(){
-    for(let i = 0; i < enemies.length; i++){
+function handleEnemy() {
+    for (let i = 0; i < enemies.length; i++) {
         enemies[i].update();
         enemies[i].draw();
-        if(enemies[i].x < 0){
+        if (enemies[i].x < 0) {
             gameOver = true;
         }
-        if(enemies[i].health <= 0){
-            let resourceGain = enemies[i].maxHealth/10;
+        if (enemies[i].health <= 0) {
+            let resourceGain = enemies[i].maxHealth / 10;
             numOfResources += resourceGain;
             score += resourceGain;
             const findThisIndex = enemyPositions.indexOf(enemies[i].y);
@@ -230,7 +230,7 @@ function handleEnemy(){
             i--;
         }
     }
-    if (frame % enemiesInterval === 0){
+    if (frame % enemiesInterval === 0) {
         let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize;
         enemies.push(new Enemy(verticalPosition));
         enemyPositions.push(verticalPosition);
@@ -238,12 +238,12 @@ function handleEnemy(){
 }
 //resources
 //utilities
-function handleGameStatus(){
+function handleGameStatus() {
     ctx.fillStyle = 'black';
     ctx.font = '30px Arial';
     ctx.fillText('Score: ' + score, 20, 40);
     ctx.fillText('Resources:' + numOfResources, 20, 80);
-    if (gameOver){
+    if (gameOver) {
         ctx.fillStyle = 'black';
         ctx.font = '60px Arial';
         ctx.fillText(' GAME OVER', 135, 330);
@@ -254,7 +254,7 @@ function handleGameStatus(){
 
 
 
-function animate (){
+function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'blue';
     ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
@@ -270,21 +270,21 @@ function animate (){
 
 animate();
 
-function collision(first, second){
-    if ( !( first.x > second.x + second.width || first.x + first.width < second.x || first.y > second.y + second.height || first.y + first.height < second.y)
+function collision(first, second) {
+    if (!(first.x > second.x + second.width || first.x + first.width < second.x || first.y > second.y + second.height || first.y + first.height < second.y)
     ) {
         return true;
     };
 };
 
 
-window.addEventListener('resize', function(){
+window.addEventListener('resize', function () {
     canvasPosition = canvas.getBoundingClientRect();
 })
 
 
 
-        
 
-        
+
+
 
