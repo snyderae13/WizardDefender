@@ -76,24 +76,33 @@ function handleGameGrid() {
 
 
 //projectiles
+const fireball = new Image();
+fireball.src = '/images/bigfireball.png'
+
+
+
 class Projectile {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.width = 10;
-        this.height = 10;
+        this.width = 30;
+        this.height = 30;
         this.power = 20;
         this.speed = 5;
+        this.frameX = 0;
+        this.frameY = 0;
+        this.minFrame = 0;
+        this.maxFrame = 2;
+        this.spriteWidth = 96;
+        this.spriteHeight = 96;
     }
     update() {
         this.x += this.speed;
 
     }
     draw() {
-        ctx.fillStyle = 'black';
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.width, 0, Math.PI * 2);
-        ctx.fill();
+        
+        ctx.drawImage(fireball, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
     }
 }
 function handleProjectiles() {
@@ -119,6 +128,11 @@ function handleProjectiles() {
 
 
 //defenders
+
+const defender1 = new Image();
+defender1.src = '/images/wizard.png'
+
+
 class Defender {
     constructor(x, y) {
         this.x = x;
@@ -129,6 +143,12 @@ class Defender {
         this.health = 100;
         this.projectiles = [];
         this.timer = 0;
+        this.frameX = 0;
+        this.frameY = 0;
+        this.minFrame = 0;
+        this.maxFrame = 3;
+        this.spriteWidth = 64;
+        this.spriteHeight = 64;
     }
     draw() {
         ctx.fillStyle = 'blue';
@@ -136,11 +156,16 @@ class Defender {
         ctx.fillStyle = 'gold';
         ctx.font = '20px Arial';
         ctx.fillText(Math.floor(this.health), this.x, this.y);
+        ctx.drawImage(defender1, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
     }
     update() {
         this.timer++;
         if (this.timer % 100 === 0) {
-            projectiles.push(new Projectile(this.x + 70, this.y + 70));
+            projectiles.push(new Projectile(this.x + 70, this.y + 30));
+        }
+        if (frame % 20 === 0) {
+            if (this.frameX < this.maxFrame) this.frameX++;
+            else this.frameX = this.minFrame;
         }
     }
 }
@@ -200,9 +225,11 @@ class Enemy {
         this.spriteHeight = 80;
     }
     update() {
-        this.x -= this.movement;
-        if (this.frameX < this.maxFrame) this.frameX++;
-        else this.frameX = this.minFrame;
+        if (frame % 3 === 0) {
+            this.x -= this.movement;
+            if (this.frameX < this.maxFrame) this.frameX++;
+            else this.frameX = this.minFrame;
+        }
     }
     draw() {
         ctx.fillStyle = 'red';
@@ -221,7 +248,7 @@ function handleEnemy() {
             gameOver = true;
         }
         if (enemies[i].health <= 0) {
-            let resourceGain = enemies[i].maxHealth / 10;
+            let resourceGain = enemies[i].maxHealth / 5;
             numOfResources += resourceGain;
             score += resourceGain;
             const findThisIndex = enemyPositions.indexOf(enemies[i].y);
@@ -236,8 +263,8 @@ function handleEnemy() {
         enemyPositions.push(verticalPosition);
     }
 }
-//resources
-//utilities
+
+//game screen functions 
 function handleGameStatus() {
     ctx.fillStyle = 'black';
     ctx.font = '30px Arial';
@@ -270,6 +297,8 @@ function animate() {
 
 animate();
 
+
+//this is for collision between two rectangle cells 
 function collision(first, second) {
     if (!(first.x > second.x + second.width || first.x + first.width < second.x || first.y > second.y + second.height || first.y + first.height < second.y)
     ) {
