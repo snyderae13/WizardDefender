@@ -16,6 +16,7 @@ let frame = 0;
 let gameOver = false;
 const projectiles = [];
 let score = 0;
+const victory = 300;
 
 
 //mouse
@@ -256,6 +257,7 @@ function handleEnemy() {
             enemies.splice(i, 1);
             i--;
         }
+        
     }
     if (frame % enemiesInterval === 0) {
         let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize;
@@ -276,6 +278,12 @@ function handleGameStatus() {
         ctx.fillText(' GAME OVER', 135, 330);
 
     }
+    if (score >= victory) {
+        ctx.fillStyle = 'black';
+        ctx.font = '60px Arial';
+        ctx.fillText(' VICTORY!', 135, 330);
+        endGame();
+    }
 }
 
 
@@ -292,6 +300,7 @@ function animate() {
     handleGameStatus();
     frame++;
     if (!gameOver) requestAnimationFrame(animate);
+    
 
 }
 
