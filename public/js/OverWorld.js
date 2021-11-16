@@ -2,6 +2,7 @@ const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 canvas.width = 900;
 canvas.height = 600;
+ const myMyusic = document.querySelector("audio");
 
 //globals 
 const cellSize = 100;
@@ -17,7 +18,7 @@ let gameOver = false;
 const projectiles = [];
 let score = 0;
 const victory = 300;
-let myMusic;
+
 
 
 //mouse
@@ -321,7 +322,20 @@ window.addEventListener('resize', function () {
     canvasPosition = canvas.getBoundingClientRect();
 })
 
+//music 
 
+
+  
+let playAttempt = setInterval(() => {
+    myMyusic.play()
+      .then(() => {
+        clearInterval(playAttempt);
+      })
+      .catch(error => {
+        console.log('Unable to play the video, User has not interacted yet.');
+      });
+  }, 3000);
+  
 
 
 
