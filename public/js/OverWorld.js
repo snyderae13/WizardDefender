@@ -17,6 +17,7 @@ let gameOver = false;
 const projectiles = [];
 let score = 0;
 const victory = 300;
+let myMusic;
 
 
 //mouse
