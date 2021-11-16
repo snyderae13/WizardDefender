@@ -13,8 +13,10 @@
 
 <body>
     <canvas id="canvas1"></canvas>
-    <audio loop='loop' autoplay='autoplay'>
-        <source src='/gametheme/gamemusic.mp3' type = "audio/mp3" />
+
+    <iframe src="/gametheme/250-miliseconds-of-silence.mp3" allow="autoplay" id="audio" style="display: none"></iframe>
+    <audio id="player" autoplay loop>
+        <source src='/gametheme/gamemusic.mp3' type = "audio/mp3"/>
     </audio>
 
 

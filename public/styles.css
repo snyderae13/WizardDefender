@@ -12,3 +12,8 @@ body {
     background:white;
     background-image: url('/images/skybackground.png');
 }
+
+audio {
+    position: relative;
+    left:60%;
+}
