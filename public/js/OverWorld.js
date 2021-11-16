@@ -152,8 +152,8 @@ class Defender {
         this.spriteHeight = 64;
     }
     draw() {
-        ctx.fillStyle = 'blue';
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        //ctx.fillStyle = 'blue';
+        //ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.fillStyle = 'gold';
         ctx.font = '20px Arial';
         ctx.fillText(Math.floor(this.health), this.x, this.y);
@@ -233,8 +233,8 @@ class Enemy {
         }
     }
     draw() {
-        ctx.fillStyle = 'red';
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        //ctx.fillStyle = 'red';
+        //ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.fillStyle = 'black';
         ctx.font = '20px Arial';
         ctx.fillText(Math.floor(this.health), this.x, this.y);
