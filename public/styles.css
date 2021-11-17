@@ -10,7 +10,7 @@ body {
     width: 900px;
     height: 600px;
     background:white;
-    background-image: url('public/images/skybackground.png');
+    background-image: url('./images/skybackground.png');
 }
 
 audio {
