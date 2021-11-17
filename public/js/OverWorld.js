@@ -85,7 +85,7 @@ function handleGameGrid() {
 
 //projectiles
 const fireball = new Image();
-fireball.src = '/images/bigfireball.png'
+fireball.src = 'public/images/bigfireball.png'
 
 
 
@@ -140,7 +140,7 @@ function handleProjectiles() {
 //defenders
 
 const defender1 = new Image();
-defender1.src = '/images/wizard.png'
+defender1.src = 'public/images/wizard.png'
 
 
 class Defender {
@@ -214,7 +214,7 @@ function handleDefenders() {
 //enemies
 const enemyTypes = [];
 const enemy1 = new Image();
-enemy1.src = '/images/dragon.png'
+enemy1.src = 'public/images/dragon.png'
 enemyTypes.push(enemy1);
 
 
