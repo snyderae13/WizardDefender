@@ -4,7 +4,12 @@ My inspiration for the game came from looking around at various mini games and o
 
 Tech Used:
 Sprite Sheet and Background : PixelAntasy FREE Pixel Art from https://mobilegamegraphics.com/product/pixelantasy-free-pixel-art/
+
+
 w3schools : https://www.w3schools.com/graphics/game_images.asp
+
+
+
 MDN Game Development : https://developer.mozilla.org/en-US/docs/Games
 
 
