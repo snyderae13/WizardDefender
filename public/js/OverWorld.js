@@ -2,26 +2,26 @@ const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 canvas.width = 900;
 canvas.height = 600;
- const myMyusic = document.querySelector("audio");
+const myMyusic = document.querySelector("audio");
 
 //globals 
-const cellSize = 100;
-const cellGap = 3;
-const gameGrid = [];
-const defenders = [];
-let numOfResources = 300;
-const enemies = [];
-const enemyPositions = [];
-let enemiesInterval = 600;
-let frame = 0;
-let gameOver = false;
-const projectiles = [];
-let score = 0;
-const victory = 300;
+const cellSize = 100; //100 X 100px
+const cellGap = 3; // used so the defenders wont bump into enemies below or above
+const gameGrid = []; // sets up the actual grid, holds info about each cell in the grid
+const defenders = []; // playable characters with projectiles
+let numOfResources = 300; // starting points to place defenders 
+const enemies = []; // enemies coming from right to left 
+const enemyPositions = []; // sets where the enemies start on the grid 
+let enemiesInterval = 600; // how often the enemies will spawn 
+let frame = 0; // this lets me slow down my animations so they look nicer and dont spazz out 
+let gameOver = false; // for showing the game is lost 
+const projectiles = []; // shoot at enemies and reduce their health
+let score = 0; // the points for killing an enemy 
+const victory = 300; // the points needed to win the game 
 
 
 
-//mouse
+//mouse variable so you can click on a cell within the grid so you can place defenders 
 const mouse = {
     x: 10,
     y: 10,
@@ -29,19 +29,23 @@ const mouse = {
     height: 0.1,
 
 }
-let canvasPosition = canvas.getBoundingClientRect();
+let canvasPosition = canvas.getBoundingClientRect();// returns a DOM Rect object giving info about the size of the element and its position relative to the canvas
 canvas.addEventListener('mousemove', function (e) {
     mouse.x = e.x - canvasPosition.left;
     mouse.y = e.y - canvasPosition.top;
 
 });
+// when we move the mouse onto the grid, it takes a function with an event so that the X and Y of the mouse are equal to the event minus the left and top canvas positions
 canvas.addEventListener('mouseleave', function () {
     mouse.x = undefined;
     mouse.y = undefined;
 })
 
+// leave undefined because the mouse is no longer on our canvas screen 
 
-// grid base game board
+
+
+// grid base game board to cover the whole width but only one cell high
 const controlsBar = {
     width: canvas.width,
     height: cellSize,
@@ -59,7 +63,7 @@ class Cell {
             ctx.strokeStyle = 'black';
             ctx.strokeRect(this.x, this.y, this.width, this.height);
         }
-    }
+    } // if the mouse's x and y and the collison function didnt detect anything wrong, it will create a black rectangle 
 }
 function createGrid() {
     for (let y = cellSize; y < canvas.height; y += cellSize) {
@@ -68,7 +72,7 @@ function createGrid() {
 
         }
     }
-}
+} // setting the y for loop to cellSize stops it from making cells in the control bar
 createGrid();
 function handleGameGrid() {
     for (let i = 0; i < gameGrid.length; i++) {
@@ -76,6 +80,7 @@ function handleGameGrid() {
     }
 
 }
+//creates the game grid with the draw function, so the mouse can move over the cells 
 
 
 //projectiles
@@ -90,8 +95,8 @@ class Projectile {
         this.y = y;
         this.width = 30;
         this.height = 30;
-        this.power = 20;
-        this.speed = 5;
+        this.power = 20; //hp of the projectilees
+        this.speed = 5; // how fast they travel over the cells 
         this.frameX = 0;
         this.frameY = 0;
         this.minFrame = 0;
@@ -102,11 +107,11 @@ class Projectile {
     update() {
         this.x += this.speed;
 
-    }
+    } // this helps with keeping the projectile at 5 for speed 
     draw() {
-        
+
         ctx.drawImage(fireball, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
-    }
+    } // to create the size of the projectile 
 }
 function handleProjectiles() {
     for (let i = 0; i < projectiles.length; i++) {
@@ -127,7 +132,9 @@ function handleProjectiles() {
         }
     }
 
-}
+}// the first for loop is to make sure that the projectiles  are updated and drawn
+// the second loop is for enemies that is to set that if enemies and projectiles make a collison, that the enemies health is subtracted from the power of the projectile. Then the projectile is removed from the array so it won't travel through the enemy 
+// The last loop is to make sure that the projectile dosen't travel off our screen and kills an enemy before they can even spawn 
 
 
 //defenders
@@ -140,12 +147,11 @@ class Defender {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.width = cellSize - cellGap * 2;
-        this.height = cellSize - cellGap * 2;
-        this.shooting = false;
+        this.width = cellSize - cellGap * 2; // this is too avoid collison with enemies 
+        this.height = cellSize - cellGap * 2; // this is to avoid collision with enemies 
         this.health = 100;
         this.projectiles = [];
-        this.timer = 0;
+        this.timer = 0; // how frequently the projectile fires
         this.frameX = 0;
         this.frameY = 0;
         this.minFrame = 0;
@@ -156,11 +162,11 @@ class Defender {
     draw() {
         //ctx.fillStyle = 'blue';
         //ctx.fillRect(this.x, this.y, this.width, this.height);
-        ctx.fillStyle = 'gold';
+        ctx.fillStyle = 'black';
         ctx.font = '20px Arial';
         ctx.fillText(Math.floor(this.health), this.x, this.y);
         ctx.drawImage(defender1, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
-    }
+    } // this displays the image, its frames for the animation and displays health
     update() {
         this.timer++;
         if (this.timer % 100 === 0) {
@@ -170,7 +176,7 @@ class Defender {
             if (this.frameX < this.maxFrame) this.frameX++;
             else this.frameX = this.minFrame;
         }
-    }
+    }// this updates our projectile time and where it fires from our defender. the frame sets how quickly we go through our sprite sheet to make the animation smooth 
 }
 canvas.addEventListener('click', function () {
     const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
@@ -182,6 +188,7 @@ canvas.addEventListener('click', function () {
         numOfResources -= defenderCost;
     }
 });
+// this sets up for when we click that the X and Y position is added with cellGap so we don't collide with defenders from above or below. Also the cost of a defender and an if statment if we have enough resources to create another defender base on our X and Y grid position that we chose, also to reduce that cost from of numOfResources displayed in the controls bar 
 
 function handleDefenders() {
     for (let i = 0; i < defenders.length; i++) {
@@ -200,7 +207,9 @@ function handleDefenders() {
         }
 
     }
-}
+} // first loop is to draw and update the defenders
+// second loop is for when a defender and enemy collide the enemy will stop moving and start reducing the defenders health
+// The third loop is once a defender's health reaches or equal to zero that it removes the defender from the array and if the enemy still has health that it will return to its speed 
 
 //enemies
 const enemyTypes = [];
@@ -215,11 +224,11 @@ class Enemy {
         this.y = verticalPosition;
         this.width = cellSize;
         this.height = cellSize;
-        this.speed = Math.random() * 0.2 + 0.4;
+        this.speed = Math.random() * 0.2 + 0.4; // varies in speed for each enemy to keep things interesting 
         this.movement = this.speed;
         this.health = 100;
         this.maxHealth = this.health;
-        this.enemyType = enemyTypes[0];
+        this.enemyType = enemyTypes[0]; //plan to add more enemies in the future
         this.frameX = 0;
         this.frameY = 0;
         this.minFrame = 0;
@@ -233,7 +242,7 @@ class Enemy {
             if (this.frameX < this.maxFrame) this.frameX++;
             else this.frameX = this.minFrame;
         }
-    }
+    }// this updates the speed of the animation and 
     draw() {
         //ctx.fillStyle = 'red';
         //ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -241,7 +250,7 @@ class Enemy {
         ctx.font = '20px Arial';
         ctx.fillText(Math.floor(this.health), this.x, this.y);
         ctx.drawImage(this.enemyType, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
-    }
+    } //displays enemies health and sprite animation
 }
 function handleEnemy() {
     for (let i = 0; i < enemies.length; i++) {
@@ -259,14 +268,14 @@ function handleEnemy() {
             enemies.splice(i, 1);
             i--;
         }
-        
-    }
+
+    } // first loop updates and draws the enemy, then the first if is made true when an enemy reaches the end of the left side of the screen, making gameOver to be true and firing the GAME OVER text below. the last if statment is for when the enemy's health is either or less than 0, you gain 20 pts to both rescources and score. Then findThisIndex finds teh enemies position who dided and removes it from the array
     if (frame % enemiesInterval === 0) {
         let verticalPosition = Math.floor(Math.random() * 5 + 1) * cellSize;
         enemies.push(new Enemy(verticalPosition));
         enemyPositions.push(verticalPosition);
     }
-}
+} // this is to set when the next enemy will appear using math floor and math random to place an enemy randomly and then to push that new enemy with its vertical position to its enemyPositions
 
 //game screen functions 
 function handleGameStatus() {
@@ -287,13 +296,15 @@ function handleGameStatus() {
         endGame();
     }
 }
+// this is to handle the game's score, resouces, and Victory or Game over
+// endGame() isn't the prettiest nor smoothest endings, but I found it did just what I needed it to do 
 
 
-
+// this function handles the creation and position of the controls bar, as well as the handle grid, defender, projectiles, enemies, and Game Status, also it makes sure that the frame variable is incremented. Also makes sure that if its not gameOver that it continues to animate the game 
 
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'blue';
+    ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
     handleGameGrid();
     handleDefenders();
@@ -302,7 +313,7 @@ function animate() {
     handleGameStatus();
     frame++;
     if (!gameOver) requestAnimationFrame(animate);
-    
+
 
 }
 
@@ -318,6 +329,8 @@ function collision(first, second) {
 };
 
 
+// this helps when you need to resize the screen to full size so it won't mess up the game 
+
 window.addEventListener('resize', function () {
     canvasPosition = canvas.getBoundingClientRect();
 })
@@ -325,17 +338,17 @@ window.addEventListener('resize', function () {
 //music 
 
 
-  
+
 let playAttempt = setInterval(() => {
     myMyusic.play()
-      .then(() => {
-        clearInterval(playAttempt);
-      })
-      .catch(error => {
-        console.log('Unable to play the video, User has not interacted yet.');
-      });
-  }, 3000);
-  
+        .then(() => {
+            clearInterval(playAttempt);
+        })
+        .catch(error => {
+            console.log('Unable to play the video, User has not interacted yet.');
+        });
+}, 3000);
+
 
 
 
