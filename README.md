@@ -6,7 +6,7 @@ Tech Used:
 Sprite Sheet and Background : PixelAntasy FREE Pixel Art from https://mobilegamegraphics.com/product/pixelantasy-free-pixel-art/
 
 
-w3schools : https://www.w3schools.com/graphics/game_images.asp
+w3schools : https://www.w3schools.com/graphics/game_intro.asp
 
 
 
