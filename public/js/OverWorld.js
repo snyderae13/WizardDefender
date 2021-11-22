@@ -34,19 +34,33 @@ canvas.addEventListener('mousemove', function (e) {
     mouse.x = e.x - canvasPosition.left;
     mouse.y = e.y - canvasPosition.top;
 
-});
+}); 
 // when we move the mouse onto the grid, it takes a function with an event so that the X and Y of the mouse are equal to the event minus the left and top canvas positions
 canvas.addEventListener('mouseleave', function () {
     mouse.x = undefined;
     mouse.y = undefined;
-})
+}) 
 
-// leave undefined because the mouse is no longer on our canvas screen 
+// leave undefined because the mouse is no longer on our canvas screen
+
+// I need an addEventListener for keyup and keydown so you can control your wizard character and move them up and down 
+
+/*
+window.addEventListener('keydown', function (e) {
+    myGameArea.key = e.keyCode;
+  })
+  window.addEventListener('keyup', function (e) {
+    myGameArea.key = false;
+  })  */
+
+  // need to figure out what to use instead of keyCode
+
+
 
 
 
 // grid base game board to cover the whole width but only one cell high
-const controlsBar = {
+const topNavBar = {
     width: canvas.width,
     height: cellSize,
 }
@@ -63,7 +77,7 @@ class Cell {
             ctx.strokeStyle = 'black';
             ctx.strokeRect(this.x, this.y, this.width, this.height);
         }
-    } // if the mouse's x and y and the collison function didnt detect anything wrong, it will create a black rectangle 
+    }// if the mouse's x and y and the collison function didnt detect anything wrong, it will create a black rectangle 
 }
 function createGrid() {
     for (let y = cellSize; y < canvas.height; y += cellSize) {
@@ -79,7 +93,7 @@ function handleGameGrid() {
         gameGrid[i].draw();
     }
 
-}
+} 
 //creates the game grid with the draw function, so the mouse can move over the cells 
 
 
@@ -137,10 +151,24 @@ function handleProjectiles() {
 // The last loop is to make sure that the projectile dosen't travel off our screen and kills an enemy before they can even spawn 
 
 
-//defenders
+//defenders- I need to add a function that will handle the characters movements for the keyup and keydown Event Listners from upabove in the code. 
+
+/*function updateGameArea() {
+    myGameArea.clear();
+    myGamePiece.speedX = 0;
+    myGamePiece.speedY = 0;
+    if (myGameArea.key && myGameArea.key == 37) {myGamePiece.speedX = -1; }
+    if (myGameArea.key && myGameArea.key == 39) {myGamePiece.speedX = 1; }
+    if (myGameArea.key && myGameArea.key == 38) {myGamePiece.speedY = -1; }
+    if (myGameArea.key && myGameArea.key == 40) {myGamePiece.speedY = 1; }
+    myGamePiece.newPos();
+    myGamePiece.update();
+  } */ 
+  // it needs to be something like this but modified 
 
 const defender1 = new Image();
 defender1.src = 'public/images/wizard.png'
+
 
 
 class Defender {
@@ -158,6 +186,9 @@ class Defender {
         this.maxFrame = 3;
         this.spriteWidth = 64;
         this.spriteHeight = 64;
+        this.speedX = 0;
+        this.speedY = 0;
+        
     }
     draw() {
         //ctx.fillStyle = 'blue';
@@ -178,6 +209,10 @@ class Defender {
         }
     }// this updates our projectile time and where it fires from our defender. the frame sets how quickly we go through our sprite sheet to make the animation smooth 
 }
+
+
+
+
 canvas.addEventListener('click', function () {
     const gridPositionX = mouse.x - (mouse.x % cellSize) + cellGap;
     const gridPositionY = mouse.y - (mouse.y % cellSize) + cellGap;
@@ -187,7 +222,7 @@ canvas.addEventListener('click', function () {
         defenders.push(new Defender(gridPositionX, gridPositionY));
         numOfResources -= defenderCost;
     }
-});
+}); 
 // this sets up for when we click that the X and Y position is added with cellGap so we don't collide with defenders from above or below. Also the cost of a defender and an if statment if we have enough resources to create another defender base on our X and Y grid position that we chose, also to reduce that cost from of numOfResources displayed in the controls bar 
 
 function handleDefenders() {
@@ -305,7 +340,7 @@ function handleGameStatus() {
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
+    ctx.fillRect(0, 0, topNavBar.width, topNavBar.height);
     handleGameGrid();
     handleDefenders();
     handleProjectiles();
@@ -335,7 +370,7 @@ window.addEventListener('resize', function () {
     canvasPosition = canvas.getBoundingClientRect();
 })
 
-//music 
+//music source : https://developer.mozilla.org/en-US/docs/Web/Media/Autoplay_guide this allows me to be able to play the music once you interact 
 
 
 
