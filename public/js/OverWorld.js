@@ -29,7 +29,7 @@ const mouse = {
     height: 0.1,
 
 }
-let canvasPosition = canvas.getBoundingClientRect();// returns a DOM Rect object giving info about the size of the element and its position relative to the canvas
+let canvasPosition = canvas.getBoundingClientRect();// returns a DOM Rect object giving info about the size of the element and its position relative to the canvas source:https://www.w3schools.com/jsref/met_element_getboundingclientrect.asp
 canvas.addEventListener('mousemove', function (e) {
     mouse.x = e.x - canvasPosition.left;
     mouse.y = e.y - canvasPosition.top;
@@ -56,6 +56,10 @@ window.addEventListener('keydown', function (e) {
   // need to figure out what to use instead of keyCode
 
 
+<<<<<<< HEAD
+=======
+// leave undefined because the mouse is no longer on our canvas screen source :https://javascript.info/mousemove-mouseover-mouseout-mouseenter-mouseleave 
+>>>>>>> dea8e5a1b0ff10af5f9b152aa165321d42a1add9
 
 
 
@@ -182,8 +186,8 @@ class Defender {
         this.timer = 0; // how frequently the projectile fires
         this.frameX = 0;
         this.frameY = 0;
-        this.minFrame = 0;
-        this.maxFrame = 3;
+        this.minFrame = 0; //starting frame of animation sprite
+        this.maxFrame = 3; //ending frame of animation sprite
         this.spriteWidth = 64;
         this.spriteHeight = 64;
         this.speedX = 0;
@@ -197,7 +201,7 @@ class Defender {
         ctx.font = '20px Arial';
         ctx.fillText(Math.floor(this.health), this.x, this.y);
         ctx.drawImage(defender1, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
-    } // this displays the image, its frames for the animation and displays health
+    } // this displays the image, its frames for the animation and displays health source for drawImage parameters : https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
     update() {
         this.timer++;
         if (this.timer % 100 === 0) {
@@ -266,8 +270,8 @@ class Enemy {
         this.enemyType = enemyTypes[0]; //plan to add more enemies in the future
         this.frameX = 0;
         this.frameY = 0;
-        this.minFrame = 0;
-        this.maxFrame = 3;
+        this.minFrame = 0;// starting frame of animation sprite
+        this.maxFrame = 3;// ending frame of animation sprite 
         this.spriteWidth = 80;
         this.spriteHeight = 80;
     }
@@ -285,7 +289,7 @@ class Enemy {
         ctx.font = '20px Arial';
         ctx.fillText(Math.floor(this.health), this.x, this.y);
         ctx.drawImage(this.enemyType, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
-    } //displays enemies health and sprite animation
+    } //displays enemies health and sprite animation from drawImage 
 }
 function handleEnemy() {
     for (let i = 0; i < enemies.length; i++) {
@@ -372,7 +376,7 @@ window.addEventListener('resize', function () {
 
 //music source : https://developer.mozilla.org/en-US/docs/Web/Media/Autoplay_guide this allows me to be able to play the music once you interact 
 
-
+// this allows me to play the music after the first interaction with the page source :https://developer.mozilla.org/en-US/docs/Web/Media/Autoplay_guide
 
 let playAttempt = setInterval(() => {
     myMyusic.play()
