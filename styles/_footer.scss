@@ -1,0 +1,23 @@
+ 
+
+
+
+
+@function divd($num){
+    @if type-of($num) != "number" {
+        @warn "`#{$num}` is not a number";
+        @return false;
+    }
+    @return #{$num / 3}px;
+}
+
+
+@mixin footstyle {
+    text-align: center;
+    padding: 15px;
+    position: absolute;
+    bottom: 0;
+    width: $can-width;
+
+    
+}

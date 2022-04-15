@@ -1,0 +1,28 @@
+@import "_variables.scss";
+@import "_canvas.scss";
+@import "_footer.scss";
+@import "_aside.scss";
+
+
+body {
+    background:$bg-color;
+}
+
+#canvas1{
+    @include gamescreen;
+    background: $can-bg;
+    width: $can-width;
+    height: $can-height;
+
+}
+
+h1{
+    color:$h1-color;
+    font-family: $font-style;
+    text-shadow: $h1-shadow;
+    text-align: center;
+}
+
+#left{
+    @include padmarg;
+}
