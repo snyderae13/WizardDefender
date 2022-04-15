@@ -56,10 +56,6 @@ window.addEventListener('keydown', function (e) {
   // need to figure out what to use instead of keyCode
 
 
-<<<<<<< HEAD
-=======
-// leave undefined because the mouse is no longer on our canvas screen source :https://javascript.info/mousemove-mouseover-mouseout-mouseenter-mouseleave 
->>>>>>> dea8e5a1b0ff10af5f9b152aa165321d42a1add9
 
 
 

@@ -13,7 +13,58 @@ body {
     background-image: url('./images/skybackground.png');
 }
 
+h1 {
+    color: white;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    text-shadow: 3px 3px #ff0000ad;
+}
+
+#left {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 400;
+    width: 15%;
+    padding-left: 15px;
+    margin-left: 20px;
+    float: left;
+    font-style: italic;
+    background-color: lightgray;
+    border: 2px solid red;
+    border-radius: 12px;
+    padding: 5px;
+  }
+
+  #right{
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 400;
+    width: 15%;
+    padding-left: 15px;
+    margin-left: 20px;
+    float: right;
+    font-style: italic;
+    background-color: lightgray;
+    border: 2px solid red;
+    border-radius: 12px;
+    padding: 5px;
+  }
+
 audio {
     position: relative;
     left:60%;
+}
+
+footer{
+    text-align: center;
+    background-color: red;
+    color: white;
+    padding: 15px;
+    position: absolute;
+    bottom: 0;
+    width: 900px;
+    margin-left: 300px;
+    margin-bottom: 28px;
+    border: 2px solid red;
+    border-radius: 12px;
+    padding: 10px;
+
 }
