@@ -13,6 +13,7 @@ body {
     background: $can-bg;
     width: $can-width;
     height: $can-height;
+    background-image: url('../public/images/skybackground.png');
 
 }
 
@@ -24,5 +25,39 @@ h1{
 }
 
 #left{
-    @include padmarg;
+    @include padmarg("left");
+    font-family: $font-style;
+    width: 15%;
+    font-style: italic;
+    background-color:$aside-bg;
+    border: $aside-border;
+    border-radius: $border-radius;
+}
+
+#right{
+    @include padmarg("right");
+    font-family: $font-style;
+    width: 15%;
+    font-style: italic;
+    background-color:$aside-bg;
+    border: $aside-border;
+    border-radius: $border-radius;
+}
+
+
+audio {
+    position: relative;
+    left:60%;
+}
+
+footer{
+    @include footstyle;
+    background-color: $foot-bg;
+    color: $h1-color;
+    width: $can-width;
+    margin-left: divd(900);
+    margin-bottom: 28px;
+    border: 2px solid red;
+    border-radius: 12px;
+    padding: 10px;
 }

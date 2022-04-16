@@ -1,0 +1,71 @@
+body {
+  background: black;
+}
+
+#canvas1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  background-image: url("../public/images/skybackground.png");
+  background: white;
+  width: 900px;
+  height: 600px;
+  background-image: url("../public/images/skybackground.png");
+}
+
+h1 {
+  color: rgba(255, 255, 255, 0.945);
+  font-family: "Orbitron", sans-serif;
+  text-shadow: 3px 3px #ff0000ad;
+  text-align: center;
+}
+
+#left {
+  padding-left: 15px;
+  margin-left: 20px;
+  float: "left";
+  padding: 5px;
+  font-family: "Orbitron", sans-serif;
+  width: 15%;
+  font-style: italic;
+  background-color: lightgray;
+  border: 2px solid #ff0000ad;
+  border-radius: 12px;
+}
+
+#right {
+  padding-left: 15px;
+  margin-left: 20px;
+  float: "right";
+  padding: 5px;
+  font-family: "Orbitron", sans-serif;
+  width: 15%;
+  font-style: italic;
+  background-color: lightgray;
+  border: 2px solid #ff0000ad;
+  border-radius: 12px;
+}
+
+audio {
+  position: relative;
+  left: 60%;
+}
+
+footer {
+  text-align: center;
+  padding: 15px;
+  position: absolute;
+  bottom: 0;
+  width: 900px;
+  background-color: #ff0000ad;
+  color: rgba(255, 255, 255, 0.945);
+  width: 900px;
+  margin-left: 300px;
+  margin-bottom: 28px;
+  border: 2px solid red;
+  border-radius: 12px;
+  padding: 10px;
+}
+/*# sourceMappingURL=style.css.map */
